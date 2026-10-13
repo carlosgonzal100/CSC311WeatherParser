@@ -26,7 +26,7 @@ void main() {
     try {
         records = WeatherParser.parse(Path.of("weatherdata.csv"));
     } catch (IOException e) {
-        System.out.println("Could not read weatherdata.csv: " + e.getMessage());
+        System.out.print(WeatherReport.fileError(e.getMessage()));
         return;
     }
 
@@ -61,12 +61,12 @@ void main() {
             }
             case "0" -> false;
             default -> {
-                System.out.println("Invalid option. Please choose 0, 1, 2, 3 or 4.");
+                System.out.print(WeatherReport.INVALID_OPTION);
                 yield true;
             }
         };
     }
-    System.out.println("Goodbye!");
+    System.out.print(WeatherReport.GOODBYE);
 }
 
 /// Asks the user for a month number until a valid one is entered.
@@ -88,7 +88,7 @@ void main() {
 /// @return the month the user entered, or an empty `Optional` if the user typed `x`
 Optional<Month> readMonth(Scanner scanner) {
     while (true) {
-        System.out.print("Enter a month (1-12), or x to go back: ");
+        System.out.print(WeatherReport.MONTH_PROMPT);
         if (!scanner.hasNextLine()) {
             return Optional.empty();
         }
@@ -99,7 +99,7 @@ Optional<Month> readMonth(Scanner scanner) {
         try {
             return Optional.of(Month.of(Integer.parseInt(input)));
         } catch (NumberFormatException | DateTimeException e) {
-            System.out.println("Invalid month. Please enter a number from 1 to 12, or x to go back.");
+            System.out.print(WeatherReport.INVALID_MONTH);
         }
     }
 }
@@ -123,7 +123,7 @@ Optional<Month> readMonth(Scanner scanner) {
 /// @return the threshold the user entered, or an empty `OptionalDouble` if the user typed `x`
 OptionalDouble readThreshold(Scanner scanner) {
     while (true) {
-        System.out.print("Enter a temperature threshold in °C, or x to go back: ");
+        System.out.print(WeatherReport.THRESHOLD_PROMPT);
         if (!scanner.hasNextLine()) {
             return OptionalDouble.empty();
         }
@@ -139,6 +139,6 @@ OptionalDouble readThreshold(Scanner scanner) {
         } catch (NumberFormatException e) {
             // Not a number: fall through to the error message and ask again.
         }
-        System.out.println("Invalid temperature. Please enter a number, or x to go back.");
+        System.out.print(WeatherReport.INVALID_THRESHOLD);
     }
 }

@@ -9,8 +9,10 @@ import java.util.stream.Collectors;
 
 /// Builds the text shown to the user, using **text blocks** (Java 15).
 ///
-/// This is an **interface that only holds static methods and a constant**, so
-/// the output formatting is organized without declaring a class.
+/// Every message the program prints comes from this interface, so all output
+/// is generated in one place. This is an **interface that only holds static
+/// methods and constants**, so the output formatting is organized without
+/// declaring a class.
 public interface WeatherReport {
 
     /// The main menu, written as a **text block** (Java 15).
@@ -31,6 +33,110 @@ public interface WeatherReport {
             4. Weather categories for a month
             0. Exit
             Choose an option:\s""";
+
+    /// The message shown when the user picks an option that is not on the menu.
+    ///
+    /// ## Example
+    /// {@snippet lang=java :
+    /// System.out.print(WeatherReport.INVALID_OPTION);
+    /// // Invalid option. Please choose 0, 1, 2, 3 or 4.
+    /// }
+    String INVALID_OPTION = """
+            Invalid option. Please choose 0, 1, 2, 3 or 4.
+            """;
+
+    /// The message shown when the user exits the program.
+    ///
+    /// ## Example
+    /// {@snippet lang=java :
+    /// System.out.print(WeatherReport.GOODBYE); // Goodbye!
+    /// }
+    String GOODBYE = """
+            Goodbye!
+            """;
+
+    /// The question asking the user for a month.
+    ///
+    /// The `\s` escape sequence (Java 15) keeps the space at the end, and the
+    /// closing `"""` on the same line means the text has no final line break,
+    /// so the user types on the same line as the question.
+    ///
+    /// ## Example
+    /// {@snippet lang=java :
+    /// System.out.print(WeatherReport.MONTH_PROMPT);
+    /// // Enter a month (1-12), or x to go back:
+    /// }
+    String MONTH_PROMPT = """
+            Enter a month (1-12), or x to go back:\s""";
+
+    /// The message shown when the user enters an invalid month.
+    ///
+    /// ## Example
+    /// {@snippet lang=java :
+    /// System.out.print(WeatherReport.INVALID_MONTH);
+    /// // Invalid month. Please enter a number from 1 to 12, or x to go back.
+    /// }
+    String INVALID_MONTH = """
+            Invalid month. Please enter a number from 1 to 12, or x to go back.
+            """;
+
+    /// The question asking the user for a temperature threshold.
+    ///
+    /// Like [#MONTH_PROMPT], it ends with `\s` and no line break so the user
+    /// types on the same line as the question.
+    ///
+    /// ## Example
+    /// {@snippet lang=java :
+    /// System.out.print(WeatherReport.THRESHOLD_PROMPT);
+    /// // Enter a temperature threshold in °C, or x to go back:
+    /// }
+    String THRESHOLD_PROMPT = """
+            Enter a temperature threshold in °C, or x to go back:\s""";
+
+    /// The message shown when the user enters an invalid temperature threshold.
+    ///
+    /// ## Example
+    /// {@snippet lang=java :
+    /// System.out.print(WeatherReport.INVALID_THRESHOLD);
+    /// // Invalid temperature. Please enter a number, or x to go back.
+    /// }
+    String INVALID_THRESHOLD = """
+            Invalid temperature. Please enter a number, or x to go back.
+            """;
+
+    /// Formats the message shown when the CSV file cannot be read.
+    ///
+    /// ## Example
+    /// {@snippet lang=java :
+    /// WeatherReport.fileError("weatherdata.csv");
+    /// // "Could not read weatherdata.csv: weatherdata.csv"
+    /// }
+    ///
+    /// @param reason the error message from the failed read
+    /// @return the text to display
+    static String fileError(String reason) {
+        return format("""
+                Could not read weatherdata.csv: %s
+                """, reason);
+    }
+
+    /// Formats the warning shown when a CSV line is skipped because it is invalid.
+    ///
+    /// ## Example
+    /// {@snippet lang=java :
+    /// WeatherReport.skippedLine(3, "invalid number", "2023-08-01,hot,71,0.7");
+    /// // "Warning: skipped line 3 (invalid number): 2023-08-01,hot,71,0.7"
+    /// }
+    ///
+    /// @param lineNumber the line's position in the file, starting at 1
+    /// @param reason     a short description of the problem
+    /// @param line       the text of the skipped line
+    /// @return the text to display
+    static String skippedLine(int lineNumber, String reason, String line) {
+        return format("""
+                Warning: skipped line %d (%s): %s
+                """, lineNumber, reason, line);
+    }
 
     /// Formats the result of an average-temperature calculation.
     ///

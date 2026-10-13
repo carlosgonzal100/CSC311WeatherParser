@@ -84,7 +84,7 @@ public interface WeatherParser {
                 case DateTimeException _ -> "invalid date";
                 default -> "invalid number";
             };
-            System.out.println("Warning: skipped line " + lineNumber + " (" + reason + "): " + line);
+            System.out.print(WeatherReport.skippedLine(lineNumber, reason, line));
             return Optional.empty();
         }
     }
