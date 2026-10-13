@@ -3,7 +3,7 @@
 A console application that reads daily weather data from a CSV file and analyzes it using **modern Java features (Java 15–23 and later)**, built **without a single explicit class**. The whole design uses only records, interfaces, lambdas and streams.
 
 > **Course:** CSC 311 – Advanced Programming<br>
-> **Author:** [Carlos Gonzalez] with the assistance of CLAUDE.AI (https://github.com/carlosgonzal100)
+> **Author:** [Carlos Gonzalez](https://github.com/carlosgonzal100) with the assistance of CLAUDE.AI
 
 ---
 
@@ -18,6 +18,7 @@ A console application that reads daily weather data from a CSV file and analyzes
 8. [Project Structure](#project-structure)
 9. [Documentation (Markdown Javadoc)](#documentation-markdown-javadoc)
 10. [Error Handling](#error-handling)
+11. [AI Disclosure Note](#ai-disclosure-note)
 
 ---
 
@@ -270,3 +271,49 @@ Then open `docs/index.html` in a browser.
 | Month with no data (e.g. January) | `No data found for January.` |
 | Invalid line in the CSV file | Skips the line and prints a warning, e.g. `Warning: skipped line 7 (invalid date): 2023-13-01,29.5,71,0.7` |
 | CSV file missing or unreadable | Prints `Could not read weatherdata.csv: ...` and exits |
+
+---
+
+## AI Disclosure Note
+
+### Prompt 1
+
+Gave this prompt to CLAUDE to generate a CSV file with the necessary data columns and the appropriate data types. I did this so I could spend less time manually writing a large amount of data to make sure that my weather parser works.
+
+The result was that I received a CSV file with the requested data as explained in the prompt. I did not specify what data the date column should be, and thus made it a LocalDate type. The file was easily parsable, and the data put into the CSV was generated from a fixed random seed, meaning the data is realistic, but it was not real weather data. I also received 8 months of data to parse so I can test the averages from different months.
+
+I made a weatherdata.csv file in the root folder of the project and copied and pasted the data into that file. Here is the prompt I made:
+
+> “create me a weatherdata.csv file that includes a date column (ex. 2023-08-01) in this format year/month/day, a temperature column with a double data type, a humidity column with an int data type and precipitation with a double data type”
+
+### Prompt 2
+
+Gave this prompt to CLAUDE in order to get a good footing on starting off with the project. I provided the prompt with very specific and detailed instructions on what the app should and should not use according to the assignment.
+
+The result was CLAUDE asking me, step by step, for permission to add certain changes to my project. Such as deleting all 5 classes that were added by default to the project and replacing it with a classless main. It also gave me a console menu to use for interaction
+
+> “Ok using modern java features such as java records, enhanced switch statements, text blocks, pattern matching for switch, lambdas, streams, and any other modern java features from java 15 - java 23, create me a weather data analyzer app that parses weather data from a csv file, gives the average temp for a specific month, gives days with temps above a given threshhold, gives the count of rainy days, uses an enhanced switch statement for weather categories like "hot", "warm" or "cold". it also uses lambdas and streams to parse data efficiently. The app must NOT use explicit classes and should use records, interfaces and functional constructs. Finally it must use markdown javadoc for all methods and features and must include code examples in the javadoc using the markdown support in java 18. My restrtictions: do not add anything extra that wasnt asked from these requirments, do not assume anything, and do not add, delete, and change anything without my permission.”
+
+### Prompt 3
+
+Gave this prompt to Claude to fix a bug after the previous prompt. When the user enters the wrong input, the program says “Wrong input. Please enter a number.” and goes back to the main menu. I think that would be pretty annoying having to go back to an option constantly.
+
+So I told Claude to keep asking the user until a proper input is given or the user can press the X key to exit to the main menu. The result was exactly what was described; the user keeps looping until a proper answer is given or the X key is pressed. Here is my prompt:
+
+> “something that doesn't make sense, if i enter a wrong input it should loop until i do enter a correct input or press a certain key to stop”
+
+### Prompt 4
+
+Gave this prompt to Claude to give me a detailed README.md file that includes the features the app has, the author's name, what is needed and how to run the application, and other details.
+
+The result was a detailed read me file. It tried to put my GitHub name, so I had to change it.
+
+> “Please generate me a detailed README.md file with all the applications features, what is needed to run the application, my name, how the csv file is supposed to be formatted in order for it to be read from and all the main java featured used in the application”
+
+### Prompt 5
+
+Gave this prompt to Claude to fix a logical problem in my README.md file. In the section about CSV data format, a section tells the user that they are able to use their own file if it has the data formatted exactly the same as the weatherdata.csv file. This was wrong, as the file would have to also be named weatherdata.csv, or they would have to copy and paste their data into the weatherdata.csv file themselves.
+
+Thus, the readme file was updated to state that the user would need to replace the weatherdata.csv file with their own file(it also has to be named weatherdata.csv), or the user can replace all the data in the weatherdata.csv file as long as the data is formatted properly. Here is the prompt:
+
+> “dont change anything, the file sais the reader can change the file with any other file with the same formatted data, is that true, how would they do it?”
